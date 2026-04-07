@@ -17,7 +17,6 @@ class LLMConfig(BaseModel):
     base_url: str | None = None
     timeout: float = 60.0
     max_output_tokens: int = 512
-    # TODO: create max_output_tokens field
 
 
 class RoleConfig(BaseModel):
@@ -29,7 +28,6 @@ class Config(BaseModel):
     llms: dict[str, LLMConfig]
     roles: dict[RoleType, RoleConfig]
     system_templates: dict[TemplateType, str]
-    # TODO: create system_templates field
 
     @classmethod
     def from_yaml_file(cls, config_path: str | Path = "config.yml") -> Self:

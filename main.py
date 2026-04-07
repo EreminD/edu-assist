@@ -1,11 +1,22 @@
-from src.edu_assist.config import Config
+from dotenv import load_dotenv
 
+from src.edu_assist.config import Config
+from src.edu_assist.llm import get_llm_client
+
+load_dotenv()
+
+INPUT_PROMPT = "Кто ты?"
 
 config = Config.from_yaml_file("config.yml")
-print("Full config:", config)
-print("LLM model:", config.llms["api"].model)
+llmConfig = config.llms["ollama"]
+client = get_llm_client(llmConfig)
 
-# Read file as text
+response = client.responses.create(
+  model=llmConfig.model,
+  input=INPUT_PROMPT
+)
 
-system_prompt = config.render_system_instructions(role="history_tutor", template="tutor_quick_answer")
-print("System prompt:", system_prompt)
+print(response)
+
+print(response.output_text)
+
