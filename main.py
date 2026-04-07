@@ -1,14 +1,16 @@
-from src.edu_assist.assistant import create_response
+from src.edu_assist.api import app
+from fastapi.testclient import TestClient
 
-# Prepare prompt for LLM
-INPUT_PROMPT = input()
 
-# Call assistant
-response = create_response(
-    llm_key="api",
-    role="math_tutor",
-    template="tutor_quick_answer",
-    prompt=INPUT_PROMPT,
+client = TestClient(app)
+
+response = client.post(
+    "/ask",
+    json={
+        "role": "math_tutor",
+        "template": "tutor_quick_answer",
+        "question": "Что такое число Пи?",
+    },
 )
 
-print(response)
+print(response.text)
