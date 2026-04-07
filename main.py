@@ -1,22 +1,14 @@
-from dotenv import load_dotenv
+from src.edu_assist.assistant import create_response
 
-from src.edu_assist.config import Config
-from src.edu_assist.llm import get_llm_client
+# Prepare prompt for LLM
+INPUT_PROMPT = input()
 
-load_dotenv()
-
-INPUT_PROMPT = "Кто ты?"
-
-config = Config.from_yaml_file("config.yml")
-llmConfig = config.llms["ollama"]
-client = get_llm_client(llmConfig)
-
-response = client.responses.create(
-  model=llmConfig.model,
-  input=INPUT_PROMPT
+# Call assistant
+response = create_response(
+    llm_key="api",
+    role="math_tutor",
+    template="tutor_quick_answer",
+    prompt=INPUT_PROMPT,
 )
 
 print(response)
-
-print(response.output_text)
-
