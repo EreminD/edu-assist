@@ -8,16 +8,13 @@ from sympy.parsing.sympy_parser import (
 )
 from sympy.core.sympify import SympifyError
 
-
 _TRAILING_FORMULA_RE = re.compile(r"[0-9A-Za-z+\-*/^().,\s]+$")
 _OPERATOR_RE = re.compile(r"[+\-*/^()]")
 
 
 def extract_and_solve_trailing_formula(prompt: str) -> str | None:
-    extracted_formula = _extract_trailing_formula(prompt)
-    if extract_and_solve_trailing_formula != None:
-        return _solve_formula(extracted_formula)
-    return None
+    formula = _extract_trailing_formula(prompt)
+    return _solve_formula(formula) if formula else None
 
 
 def _extract_trailing_formula(prompt: str) -> str | None:
@@ -40,5 +37,3 @@ def _solve_formula(formula_str: str) -> str | None:
     except SympifyError:
         return None
     return sp.sstr(sp.simplify(expression))
-
-
